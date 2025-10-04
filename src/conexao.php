@@ -1,13 +1,15 @@
 <?php
-$host = getenv("MYSQL_HOST");
-$user = getenv("MYSQL_USER");
-$pass = getenv("MYSQL_PASSWORD");
-$db   = getenv("MYSQL_DATABASE");
-$port = getenv("MYSQL_PORT") ?: 3306;
+$host = getenv("PGHOST");
+$port = getenv("PGPORT");
+$db   = getenv("PGDATABASE");
+$user = getenv("PGUSER");
+$pass = getenv("PGPASSWORD");
 
-$conn = new mysqli($host, $user, $pass, $db, $port);
+$connStr = "host=$host port=$port dbname=$db user=$user password=$pass";
 
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
+$conn = pg_connect($connStr);
+
+if (!$conn) {
+    die("Falha na conexão com o PostgreSQL!");
 }
 ?>
