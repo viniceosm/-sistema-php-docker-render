@@ -1,12 +1,14 @@
 FROM php:7.4-apache
 
-# Instala extensões do PostgreSQL
-RUN docker-php-ext-install pgsql pdo pdo_pgsql
+# Instala dependências necessárias pro PostgreSQL
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pgsql pdo pdo_pgsql
 
-# Ativa mod_rewrite (se precisar de URLs amigáveis)
+# Ativa mod_rewrite (se quiser URLs amigáveis)
 RUN a2enmod rewrite
 
-# Copia os arquivos do projeto para o container
+# Copia o projeto
 COPY src/ /var/www/html/
 
 EXPOSE 80
